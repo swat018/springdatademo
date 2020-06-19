@@ -1,18 +1,27 @@
 package com.swat018.springdatademo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
+//@Entity(name = "users")
 @Entity
-public class Account {
+class Account {
 
     @Id @GeneratedValue
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
     private String password;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created = new Date();
+
+    private String yes;
+
+    @Transient
+    private String no;
 
     public Long getId() {
         return id;
