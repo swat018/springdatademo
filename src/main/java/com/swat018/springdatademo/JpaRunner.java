@@ -36,7 +36,8 @@ public class JpaRunner implements ApplicationRunner {
         System.out.println("========================");
         System.out.println(jinwoo.getUsername());*/
 
- /*       Post post = new Post();
+/*
+        Post post = new Post();
         post.setTitle("Spring Data JPA 언제 보나...");
 
         Comment comment = new Comment();
@@ -48,10 +49,22 @@ public class JpaRunner implements ApplicationRunner {
         post.addComment(comment1);
 
         Session session = entityManager.unwrap(Session.class);
-        session.save(post);*/
+        session.save(post);
+*/
 
         Session session = entityManager.unwrap(Session.class);
-        Post post = session.get(Post.class, 1l);
-        session.delete(post);
+        Post post = session.get(Post.class, 4l);
+//        session.delete(post);
+//        Comment comment = session.get(Comment.class, 5l);
+
+        System.out.println("===============================");
+        System.out.println(post.getTitle());
+//        System.out.println(comment.getComment());
+//        System.out.println(comment.getPost().getTitle());
+
+        post.getComments().forEach(c-> {
+            System.out.println("----------------");
+            System.out.println(c.getComment());
+        });
     }
 }
