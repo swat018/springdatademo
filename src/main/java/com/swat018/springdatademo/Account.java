@@ -2,6 +2,8 @@ package com.swat018.springdatademo;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 //@Entity(name = "users")
 @Entity
@@ -15,7 +17,18 @@ class Account {
 
     private String password;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @OneToMany(mappedBy = "owner")
+    private Set<Study> studies = new HashSet<>();
+
+    public Set<Study> getStudies() {
+        return studies;
+    }
+
+    public void setStudies(Set<Study> studies) {
+        this.studies = studies;
+    }
+
+   /* @Temporal(TemporalType.TIMESTAMP)
     private Date created = new Date();
 
     private String yes;
@@ -27,7 +40,7 @@ class Account {
     @AttributeOverrides({
             @AttributeOverride(name= "street", column = @Column(name = "home_street"))
     })
-    private Address address;
+    private Address address;*/
 
     public Long getId() {
         return id;
@@ -51,5 +64,16 @@ class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public void addStudy(Study study) {
+        this.getStudies().add(study);
+        study.setOwner(this);
+    }
+
+    public void removeStudy(Study study) {
+        this.getStudies().remove(study);
+        study.setOwner(null);
     }
 }
