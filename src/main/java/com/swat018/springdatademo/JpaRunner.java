@@ -1,27 +1,26 @@
 package com.swat018.springdatademo;
 
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.ls.LSOutput;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.List;
 
 
 @Component
 @Transactional
 public class JpaRunner implements ApplicationRunner {
 
+/*
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    PostRepository postRepository;
+*/
+
+    @Autowired
+    Jinwoo jinwoo;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -87,7 +86,12 @@ public class JpaRunner implements ApplicationRunner {
         posts.forEach(System.out::println);*/
 
         // Native Query
-        List<Post> posts = entityManager.createNativeQuery("SELECT * FROM Post", Post.class).getResultList();
-        posts.forEach(System.out::println);
+/*        List<Post> posts = entityManager.createNativeQuery("SELECT * FROM Post", Post.class).getResultList();
+        posts.forEach(System.out::println);*/
+
+//        postRepository.findAll().forEach(System.out::println);
+
+        System.out.println("===================");
+        System.out.println(jinwoo.getName());
     }
 }
