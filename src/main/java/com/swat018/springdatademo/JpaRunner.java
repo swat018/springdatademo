@@ -11,16 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class JpaRunner implements ApplicationRunner {
 
-/*
-    @PersistenceContext
-    EntityManager entityManager;
+
+/*    @PersistenceContext
+    EntityManager entityManager;*/
 
     @Autowired
     PostRepository postRepository;
-*/
 
-    @Autowired
-    Jinwoo jinwoo;
+
+/*    @Autowired
+    Jinwoo jinwoo;*/
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -91,7 +91,14 @@ public class JpaRunner implements ApplicationRunner {
 
 //        postRepository.findAll().forEach(System.out::println);
 
-        System.out.println("===================");
-        System.out.println(jinwoo.getName());
+/*        System.out.println("===================");
+        System.out.println(jinwoo.getName());*/
+        Post post = new Post();
+        post.setTitle("spring");
+
+        Comment comment = new Comment();
+        comment.setComment("hell0");
+
+        postRepository.save(post);
     }
 }
