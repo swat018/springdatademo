@@ -5,9 +5,15 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.w3c.dom.ls.LSOutput;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 
 @Component
@@ -52,7 +58,7 @@ public class JpaRunner implements ApplicationRunner {
         session.save(post);
 */
 
-        Session session = entityManager.unwrap(Session.class);
+/*        Session session = entityManager.unwrap(Session.class);
         Post post = session.get(Post.class, 4l);
 //        session.delete(post);
 //        Comment comment = session.get(Comment.class, 5l);
@@ -65,6 +71,23 @@ public class JpaRunner implements ApplicationRunner {
         post.getComments().forEach(c-> {
             System.out.println("----------------");
             System.out.println(c.getComment());
-        });
+        });*/
+        // JPQL
+/*        TypedQuery<Post> query = entityManager.createQuery("SELECT p FROM Post AS p", Post.class);
+        List<Post> posts = query.getResultList();
+        posts.forEach(System.out::println);*/
+
+        // Criteria
+/*        CriteriaBuilder  builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Post> query = builder.createQuery(Post.class);
+        Root<Post> root = query.from(Post.class);
+        query.select(root);
+
+        List<Post> posts = entityManager.createQuery(query).getResultList();
+        posts.forEach(System.out::println);*/
+
+        // Native Query
+        List<Post> posts = entityManager.createNativeQuery("SELECT * FROM Post", Post.class).getResultList();
+        posts.forEach(System.out::println);
     }
 }
