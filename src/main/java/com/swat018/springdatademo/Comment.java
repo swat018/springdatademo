@@ -19,6 +19,16 @@ public class Comment {
 
     private Date created;
 
+    private Integer likeCount = 0;
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
     public Date getCreated() {
         return created;
     }
