@@ -8,9 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +26,7 @@ public class CommentRepositoryTest {
     CommentRepository commentRepository;
 
     @Test
-    public void crud() {
+    public void crud() throws ExecutionException, InterruptedException {
 /*
         Comment comment = new Comment();
         comment.setComment("Hello Comment");
@@ -49,20 +52,27 @@ public class CommentRepositoryTest {
 //        List<Comment> comments = commentRepository.findByCommentContainsIgnoreCaseOrderByLikeCountDesc("Spring");
 //        List<Comment> comments = commentRepository.findByCommentContainsIgnoreCaseOrderByLikeCountAsc("Spring");
 
-        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "likeCount"));
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "likeCount"));
 //        Page<Comment> comments = commentRepository.findByCommentContainsIgnoreCase("spring", pageRequest);
 //        assertThat(comments.getNumberOfElements()).isEqualTo(2);
 //        assertThat(comments).first().hasFieldOrPropertyWithValue("likeCount", 100);
 
-        try(Stream<Comment> comments = commentRepository.findByCommentContainsIgnoreCase("spring", pageRequest)) {
+ /*       try(Stream<Comment> comments = commentRepository.findByCommentContainsIgnoreCase("spring", pageRequest)) {
             Comment firstComment = comments.findFirst().get();
             assertThat(firstComment.getLikeCount()).isEqualTo(100);
-        }
+        }*/
 
 //        assertThat(comments.size()).isEqualTo(2);
 //        assertThat(comments).first().hasFieldOrPropertyWithValue("likeCount", 100);
 //        assertThat(comments).first().hasFieldOrPropertyWithValue("likeCount", 55);
 
+        ListenableFuture<List<Comment>> future =
+                commentRepository.findByCommentContainsIgnoreCase("spring", pageRequest);
+        System.out.println("====================");
+        System.out.println("is done?" + future.isDone());
+
+        List<Comment> comments = future.get();
+        comments.forEach(System.out::println);
     }
 
     private void createComment(int likeCount, String comment) {

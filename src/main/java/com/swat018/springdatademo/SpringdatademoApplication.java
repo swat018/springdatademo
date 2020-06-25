@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 
 @SpringBootApplication
-@Import(JinwooRegistrar.class)
+//@Import(JinwooRegistrar.class)
 //@EnableJpaRepositories(queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
 public class SpringdatademoApplication {
 
